@@ -144,3 +144,13 @@ class Cluster(object):
             if remote not in matches.remotes:
                 c.add(remote, has_roles)
         return c
+
+    def filter(self, func):
+        """
+        Return a cluster whose remotes are filtered by `func`.
+        """
+        result = self.__class__()
+        for rem, roles in self.remotes.items():
+            if func(rem):
+                result.add(rem, roles)
+        return result

@@ -1,0 +1,7 @@
+#custom
+overrides:
+  ansible.cephlab:
+    branch: containerized-nodes
+    skip_tags: "timezone,nagios,monitoring-scripts,ssh,hostname,pubkeys,zap,sudoers,kerberos,selinux,lvm,ntp-client,resolvconf"
+    vars:
+      containerized_node: true

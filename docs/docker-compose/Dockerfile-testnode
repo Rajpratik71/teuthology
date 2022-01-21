@@ -1,6 +1,10 @@
 FROM fedora:35
 RUN dnf -y update && \
-    dnf -y install openssh-server hostname curl redhat-lsb-core && \
+    dnf -y install \
+        openssh-server \
+        hostname \
+        curl \
+        redhat-lsb-core && \
     dnf clean all
 COPY testnode.sh /
 COPY testnode_sudoers /etc/sudoers.d/teuthology

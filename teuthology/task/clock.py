@@ -8,6 +8,9 @@ from teuthology.orchestra import run
 
 log = logging.getLogger(__name__)
 
+def filter_cluster(cluster):
+    return cluster.filter(lambda r: not r.is_container)
+
 @contextlib.contextmanager
 def task(ctx, config):
     """
@@ -30,9 +33,9 @@ def task(ctx, config):
     """
 
     log.info('Syncing clocks and checking initial clock skew...')
-
+    cluster = filter_cluster(ctx.cluster)
     run.wait(
-        ctx.cluster.run(
+        cluster.run(
             args = [
                 'sudo', 'systemctl', 'stop', 'ntp.service', run.Raw('||'),
                 'sudo', 'systemctl', 'stop', 'ntpd.service', run.Raw('||'),
@@ -60,8 +63,9 @@ def task(ctx, config):
 
     finally:
         log.info('Checking final clock skew...')
+        cluster = filter_cluster(ctx.cluster)
         run.wait(
-            ctx.cluster.run(
+            cluster.run(
                 args=[
                     'PATH=/usr/bin:/usr/sbin', 'ntpq', '-p', run.Raw('||'),
                     'PATH=/usr/bin:/usr/sbin', 'chronyc', 'sources',
@@ -82,8 +86,9 @@ def check(ctx, config):
     :param config: Configuration
     """
     log.info('Checking initial clock skew...')
+    cluster = filter_cluster(ctx.cluster)
     run.wait(
-        ctx.cluster.run(
+        cluster.run(
             args=[
                 'PATH=/usr/bin:/usr/sbin', 'ntpq', '-p', run.Raw('||'),
                 'PATH=/usr/bin:/usr/sbin', 'chronyc', 'sources',
@@ -99,8 +104,9 @@ def check(ctx, config):
 
     finally:
         log.info('Checking final clock skew...')
+        cluster = filter_cluster(ctx.cluster)
         run.wait(
-            ctx.cluster.run(
+            cluster.run(
                 args=[
                     'PATH=/usr/bin:/usr/sbin', 'ntpq', '-p', run.Raw('||'),
                     'PATH=/usr/bin:/usr/sbin', 'chronyc', 'sources',

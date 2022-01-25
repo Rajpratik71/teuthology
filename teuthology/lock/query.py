@@ -66,6 +66,7 @@ def list_locks(keyed_by_name=False, **kwargs):
             sleep=1, increment=0.5, action='list_locks') as proceed:
         while proceed():
             try:
+                log.info(uri)
                 response = requests.get(uri)
                 if response.ok:
                     break

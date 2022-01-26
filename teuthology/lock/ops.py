@@ -109,7 +109,7 @@ def lock_many(ctx, num, machine_type, user=None, description=None,
                 data['os_version'] = os_version
         if arch:
             data['arch'] = arch
-        log.debug("lock_many request: %s", repr(data))
+        log.info("lock_many url: %s request: %s", uri, repr(data))
         response = requests.post(
             uri,
             data=json.dumps(data),

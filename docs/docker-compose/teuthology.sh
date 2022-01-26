@@ -11,11 +11,14 @@ teuthology-suite -v \
     -m testnode \
     --limit 1 \
     -n 100 \
-    --suite dummy \
+    --suite smoke \
+    --filter-out "libcephfs,kclient" \
     --suite-branch master \
     --subset 9000/100000 \
     -p 75 \
     --force-priority \
     /teuthology/custom_conf.yaml
-teuthology-dispatcher --log-dir /teuthology/log --tube testnode
+teuthology-dispatcher -v \
+    --log-dir /teuthology/log \
+    --tube testnode
 tail -f /dev/null

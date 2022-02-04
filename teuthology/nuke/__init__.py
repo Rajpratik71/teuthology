@@ -323,6 +323,7 @@ def nuke_helper(ctx, should_unlock, keep_logs, should_reboot):
         return
     elif remote.is_container:
         remote.run(args=['sudo', '/testnode_stop.sh'])
+        return
     if (not ctx.noipmi and 'ipmi_user' in config and
             'vpm' not in shortname):
         try:
